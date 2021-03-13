@@ -121,10 +121,9 @@ public class CarControllerTest {
          */
 
         mvc.perform(
-                get("/cars"))
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-                        .andExpect(content().json("[]"));
+                get("/cars/"))
+                        .andExpect(status().isOk());
+
 
         verify(carService, times(1)).list();
 
@@ -142,9 +141,9 @@ public class CarControllerTest {
          */
 
         mvc.perform(
-                get("/1"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                get("/cars/1"))
+                .andExpect(status().isOk());
+
 
 
         verify(carService, times(1)).findById(1L);
@@ -165,9 +164,9 @@ public class CarControllerTest {
 
 
         mvc.perform(
-                delete("/1"))
-                        .andExpect(status().isOk())
-                        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
+                delete("/cars/1"))
+                        .andExpect(status().isNoContent())
+                        ;
 
 
                 verify(carService, times(1)).delete(1L);
@@ -175,12 +174,7 @@ public class CarControllerTest {
 
     }
 
-    @Test
-    public void getPricingService() {
-        ResponseEntity<Price> response =
-                this.restTemplate.getForEntity("http://localhost:" + port + "/services/price?vehicleId=1", Price.class);
-        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-    }
+
     /**
      * Creates an example Car object for use in testing.
      * @return an example Car object
